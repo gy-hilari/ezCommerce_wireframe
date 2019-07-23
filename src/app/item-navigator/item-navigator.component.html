@@ -1,0 +1,30 @@
+<hr>
+<!-- <p>item-navigator works!</p> -->
+<!-- <ng-template ngFor let-item [ngForOf]="tiles" let-i="index"> -->
+<div *ngIf="tiles.length > 0">
+    <div ng2-carouselamos [items]="tiles" [width]="800" [$prev]="prev" [$next]="next" [$item]="item">
+    </div>
+
+    <ng-template #prev>
+        <button>Left</button>
+    </ng-template>
+
+    <ng-template #next>
+        <button>Right</button>
+    </ng-template>
+
+    <ng-template #item let-i="index">
+        <!-- <div class="gabegrid-tilewrapper"> -->
+        <div class="gabegrid-tilewrapper">
+            <ng-template ngFor let-item [ngForOf]="tiles[i]" let-j="index">
+                <button class="gabegrid-product-tile"
+                    (click)="sendItemToParent(item); sendTagsToParent(item['tags'])">{{item['title']}}</button>
+            </ng-template>
+        </div>
+
+        <!-- </div> -->
+
+    </ng-template>
+
+</div>
+<hr>

@@ -1,0 +1,35 @@
+.gabegrid-container{
+    width:970px;
+    margin: 0px auto;
+    text-align: center;
+}
+
+.gabegrid-bubble-display{
+    border: 1px solid black;
+    border-radius: 15px;
+    width: 840px;
+    height: 340px;
+    margin: 0px auto;
+
+}
+
+.gabegrid-product-tag{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0px 12px 0px 12px;
+}
+
+.gabegrid-product-tile{
+    min-width: 180px;
+    min-height: 180px;
+    display: inline-block;
+}
+
+.gabegrid-tilewrapper{
+    min-width: 760px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 0px 10px;
+    overflow: auto;
+}
