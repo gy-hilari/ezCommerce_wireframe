@@ -1,7 +1,7 @@
-<hr>
+<!-- <hr> -->
 <!-- <p>item-navigator works!</p> -->
 <!-- <ng-template ngFor let-item [ngForOf]="tiles" let-i="index"> -->
-<div *ngIf="tiles.length > 0">
+<div cdkTrapFocus tabindex="0" *ngIf="tiles.length > 0">
     <div ng2-carouselamos [items]="tiles" [width]="800" [$prev]="prev" [$next]="next" [$item]="item">
     </div>
 
@@ -27,4 +27,4 @@
     </ng-template>
 
 </div>
-<hr>
+<!-- <hr> -->

@@ -17,4 +17,8 @@ export class HttpService {
     return this._http.get(`/api/filter/${tag}`);
   }
 
+  updatePopularity(post){
+    return this._http.put('/api/popularity', post);
+  }
+
 }

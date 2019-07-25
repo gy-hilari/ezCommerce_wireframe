@@ -87,6 +87,29 @@ app.post('/api/product', function (request, response) {
     });
 });
 
+app.put('/api/popularity', function (request, response) {
+    let targetId = request.body['id'];
+    let increment = request.body['increment'];
+
+    Product.findOne({ _id: targetId }, function(err, product){
+        if(err){
+            response.json(err);
+        }
+        else{
+            product['popularity'] += increment;
+
+            product.save(function (err){
+                if(err){
+                    response.json(err);
+                }
+                else{
+                    response.json(product);
+                }
+            });
+        }
+    });
+});
+
 app.delete('/api/delete/:id', function (request, response) {
     let targetId = request.params.id;
 

@@ -43,16 +43,26 @@ export class AppComponent implements OnInit {
 
   cart = {};
 
+  featuredItems = [];
+
+  speechVoices = [];
+  selectedVoice = "";
+
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getProductsFromService();
+    this.initSpeech('Google UK English Male');
+  }
+
+  initSpeech(voice){
+    console.log(voice);
     this.speech.init({
       'volume': 1,
       'lang': 'en-GB',
       'rate': 1,
       'pitch': 1,
-      'voice': 'Google UK English Male',
+      'voice': voice,
       'splitSentences': true,
       'listeners': {
         'onvoiceschanged': (voices) => {
@@ -62,6 +72,7 @@ export class AppComponent implements OnInit {
     }).then((data) => {
       // The "data" object contains the list of available voices and the voice synthesis params
       console.log("Speech is ready, voices are available", data)
+      this.speechVoices = data['voices'];
     }).catch(e => {
       console.error("An error occured while initializing : ", e)
     })
@@ -104,12 +115,21 @@ export class AppComponent implements OnInit {
 
   getProductsFromService() {
     this.tileGroups = [];
+    this.featuredItems = [];
     this.displayMode = this.displayModes['featured'];
     let observable = this._httpService.getProducts();
     observable.subscribe(data => {
       console.log(data);
       this.allProducts = data['data'];
       this.groupProducts(this.allProducts);
+
+      for(var i = 0; i < data['data'].length; i++){
+        if(data['data'][i]['popularity'] >= 4){
+          this.featuredItems.push(data['data'][i]);
+        }
+      }
+
+      console.log("Featured Items: ", this.featuredItems);
     });
   }
 
@@ -155,19 +175,36 @@ export class AppComponent implements OnInit {
   }
 
   addToCart(event){
-    if(this.cart[event['title']] >= 1){
-      this.cart[event['title']] += 1;
+    if(this.cart[event['title']]){
+      this.cart[event['title']]['quantity'] += 1;
     }
     else{
-      this.cart[event['title']] = 1;
+      this.cart[event['title']] = {quantity: 1, id: event['_id']};
+      // this.cart[event['title']['quantity']] = 1;
+      // this.cart[event['title']['id']] = event['_id'];
     }
-    console.log(this.cart);
+    console.log("Items in Cart: ", this.cart);
+  }
+
+  clearCart(){
+    this.cart = {};
+    console.log("Items in cart: ", this.cart);
   }
 
   speakProduct(){
     this.speech.speak({
       text: `The product ${this.targetProduct['title']} costs ${this.targetProduct['price']} dollars and is in the ${this.targetProduct['category']} category,
       description: ${this.targetProduct['description']}`,
+    }).then(() => {
+      console.log("Success !")
+    }).catch(e => {
+      console.error("An error occurred :", e)
+    })
+  }
+
+  recieveSpeech(event){
+    this.speech.speak({
+      text: `${event}`,
     }).then(() => {
       console.log("Success !")
     }).catch(e => {

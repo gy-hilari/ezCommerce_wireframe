@@ -12,7 +12,7 @@ import { HttpService } from '../http.service';
 export class ItemNavigatorComponent implements OnInit {
   @Output() sendProduct = new EventEmitter();
   @Output() sendTags = new EventEmitter();
-  @Output() productFilter = new EventEmitter;
+  @Output() productFilter = new EventEmitter();
 
   @Input() tiles = [];
   // tileGroups = [];

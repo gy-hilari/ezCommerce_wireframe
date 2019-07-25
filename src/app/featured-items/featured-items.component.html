@@ -1,4 +1,19 @@
-<div class="gabegrid-bubble-display">
-    <p>featured-items works!</p>
+<!-- <p>featured-items works!</p> -->
+<div ng2-carouselamos [items]="featuredItems" [width]="800" [$prev]="prev" [$next]="next" [$item]="item">
 </div>
 
+<ng-template #prev>
+    <button>Left</button>
+</ng-template>
+
+<ng-template #next>
+    <button>Right</button>
+</ng-template>
+
+<ng-template #item let-i="index">
+    <div class="gabegrid-tilewrapper">
+        <h2>
+            Featured Item: {{featuredItems[i]['title']}}
+        </h2>
+    </div>
+</ng-template>

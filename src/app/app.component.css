@@ -7,8 +7,8 @@
 .gabegrid-bubble-display{
     border: 1px solid black;
     border-radius: 15px;
-    width: 840px;
-    height: 340px;
+    min-width: 840px;
+    min-height: 340px;
     margin: 0px auto;
 
 }
@@ -28,6 +28,7 @@
 
 .gabegrid-tilewrapper{
     min-width: 760px;
+    min-height: 340px;
     padding: 10px;
     border: 1px solid black;
     border-radius: 15px;

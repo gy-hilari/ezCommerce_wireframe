@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { HttpService } from '../http.service';
 import Speech from 'speak-tts';
@@ -12,6 +12,9 @@ import Speech from 'speak-tts';
 export class CartComponent implements OnInit {
 
   @Input() cart;
+  @Output() clearCart = new EventEmitter();
+
+  @Output() sendSpeech = new EventEmitter();
 
   speech = new Speech();
 
@@ -49,23 +52,44 @@ export class CartComponent implements OnInit {
 
   speakCart(){
     if(this.cartKeys.length > 0){
-      this.speech.speak({
-        text: `Items in cart: `,
-      }).then(() => {
-        console.log("Success !")
-      }).catch(e => {
-        console.error("An error occurred :", e)
-      })
+      this.sendSpeech.emit("Items in cart: ");
+      // this.speech.speak({
+      //   text: `Items in cart: `,
+      // }).then(() => {
+      //   console.log("Success !")
+      // }).catch(e => {
+      //   console.error("An error occurred :", e)
+      // })
       for(var key in this.cart){
-        this.speech.speak({
-          text: `${key}, quantity, ${this.cart[key]}`,
-        }).then(() => {
-          console.log("Success !")
-        }).catch(e => {
-          console.error("An error occurred :", e)
-        })
+        this.sendSpeech.emit(`${key}, quantity, ${this.cart[key]['quantity']}`);
+        // this.speech.speak({
+        //   text: `${key}, quantity, ${this.cart[key]['quantity']}`,
+        // }).then(() => {
+        //   console.log("Success !")
+        // }).catch(e => {
+        //   console.error("An error occurred :", e)
+        // })
       }
     }
+  }
+
+  checkout(){
+    for(var key in this.cart){
+      let observable = this._httpService.updatePopularity({
+        id: this.cart[key]['id'],
+        increment: this.cart[key]['quantity']
+      });
+      observable.subscribe(data =>{
+        console.log("Updated Product Popularity: ", data);
+      });
+    }
+    this.cartKeys = [];
+    this.clearCart.emit();
+  }
+  
+  clearCartItems(){
+    this.cartKeys = [];
+    this.clearCart.emit();
   }
 
 }
