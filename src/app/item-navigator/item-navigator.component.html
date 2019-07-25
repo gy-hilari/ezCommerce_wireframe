@@ -6,18 +6,18 @@
     </div>
 
     <ng-template #prev>
-        <button (click)="decrementIdx()">Left</button>
+        <button (click)="decrementIdx()" mat-raised-button  color="accent">Left</button>
     </ng-template>
 
     <ng-template #next>
-        <button (click)="incrementIdx()">Right</button>
+        <button (click)="incrementIdx()" mat-raised-button  color="accent">Right</button>
     </ng-template>
 
     <ng-template #item let-i="index">
         <!-- <div class="gabegrid-tilewrapper"> -->
         <div class="gabegrid-tilewrapper">
             <ng-template ngFor let-item [ngForOf]="tiles[i]" let-j="index">
-                <button class="gabegrid-product-tile" (focus)="sendItemToParent(item)" (click)="sendItemToParent(item)"
+                <button class="gabegrid-product-tile" mat-stroked-button color="primary"  (focus)="sendItemToParent(item)" (click)="sendItemToParent(item)"
                     (keydown.space)="sendProductFilterToParent(item['category'])">{{item['title']}}</button>
             </ng-template>
         </div>

@@ -1,7 +1,7 @@
 <hr>
 <!-- <p>item-tags works!</p> -->
 <p (click)="sendProductFilterToParent(productCategory)">
-    {{productCategory}}
+    <button mat-raised-button color="accent" > {{productCategory}} </button>
 </p>
 <!-- <ng-template [ngIf]="productTags.length > 0">
     <p *ngFor="let tag of productTags" class="gabegrid-product-tag">
