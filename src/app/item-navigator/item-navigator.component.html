@@ -6,19 +6,19 @@
     </div>
 
     <ng-template #prev>
-        <button>Left</button>
+        <button (click)="decrementIdx()">Left</button>
     </ng-template>
 
     <ng-template #next>
-        <button>Right</button>
+        <button (click)="incrementIdx()">Right</button>
     </ng-template>
 
     <ng-template #item let-i="index">
         <!-- <div class="gabegrid-tilewrapper"> -->
         <div class="gabegrid-tilewrapper">
             <ng-template ngFor let-item [ngForOf]="tiles[i]" let-j="index">
-                <button class="gabegrid-product-tile"
-                    (click)="sendItemToParent(item); sendTagsToParent(item['tags'])">{{item['title']}}</button>
+                <button class="gabegrid-product-tile" (focus)="sendItemToParent(item)" (click)="sendItemToParent(item)"
+                    (keydown.space)="sendProductFilterToParent(item['category'])">{{item['title']}}</button>
             </ng-template>
         </div>
 

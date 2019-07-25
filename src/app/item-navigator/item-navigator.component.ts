@@ -12,9 +12,12 @@ import { HttpService } from '../http.service';
 export class ItemNavigatorComponent implements OnInit {
   @Output() sendProduct = new EventEmitter();
   @Output() sendTags = new EventEmitter();
+  @Output() productFilter = new EventEmitter;
 
   @Input() tiles = [];
   // tileGroups = [];
+
+  tileIdx = 0;
 
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { } 
 
@@ -34,7 +37,20 @@ export class ItemNavigatorComponent implements OnInit {
     this.sendProduct.emit(product);
   }
   sendTagsToParent(tags){
-    this.sendTags.emit(tags);
+    this.sendTags.emit(tags); 
+  }
+
+  sendProductFilterToParent(tag){
+    console.log(tag);
+    this.productFilter.emit(tag);
+  }
+
+  incrementIdx(){
+    this.tileIdx += 1;
+  }
+
+  decrementIdx(){
+    this.tileIdx -= 1;
   }
 
 }

@@ -20,9 +20,10 @@
 }
 
 .gabegrid-product-tile{
-    min-width: 180px;
-    min-height: 180px;
+    width: 180px;
+    height: 180px;
     display: inline-block;
+    vertical-align: top;
 }
 
 .gabegrid-tilewrapper{

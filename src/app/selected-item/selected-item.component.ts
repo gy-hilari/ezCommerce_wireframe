@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { HttpService } from '../http.service';
 
@@ -12,9 +12,16 @@ export class SelectedItemComponent implements OnInit {
   @Input() productId;
   @Input() targetProduct;
 
+  @Output() productToCart = new EventEmitter;
+
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { } 
 
   ngOnInit() {
+  }
+  
+  addProductToCart(){
+    console.log("in addProductToCart()")
+    this.productToCart.emit(this.targetProduct);
   }
 
 }
