@@ -1,32 +1,70 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { Component, OnInit, AfterViewInit, Output, Input, ViewChild, ViewChildren,
+  ElementRef, QueryList, HostListener } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
-
+import {FocusTrapFactory, FocusMonitor, ListKeyManager, FocusableOption } from '@angular/cdk/a11y';
+import Speech from 'speak-tts';
 
 @Component({
   selector: 'app-item-navigator',
   templateUrl: './item-navigator.component.html',
   styleUrls: ['../app.component.css']
 })
-export class ItemNavigatorComponent implements OnInit {
+export class ItemNavigatorComponent implements OnInit, AfterViewInit, FocusableOption {
   @Output() sendProduct = new EventEmitter();
   @Output() sendTags = new EventEmitter();
-  @Output() productFilter = new EventEmitter;
+  @Output() productFilter = new EventEmitter();
 
   @Input() tiles = [];
-  // tileGroups = [];
 
+  @ViewChild('element', { static: true }) element: ElementRef<any>;
+  @ViewChildren('elementChild') elementChild: QueryList<any>;
   tileIdx = 0;
+  keyManager: any;
+  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute,
+              private focusTrap: FocusTrapFactory , private focusMonitor: FocusMonitor) { }
 
-  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { } 
-
-  ngOnInit() {
-    // this.getProductsFromService();
+  focus() {
+    this.element.nativeElement.focus();
   }
 
-  getProductsFromService(){
-    let observable = this._httpService.getProducts();
+  ngOnInit() {
+
+    const speech = new Speech(); // will throw an exception if not browser supported
+    if (speech.hasBrowserSupport()) { // returns a boolean
+        console.log('speech synthesis supported');
+    }
+    speech.init().then((data) => {
+      // The "data" object contains the list of available voices and the voice synthesis params
+      console.log('Speech is ready, voices are available', data);
+  }).catch(e => {
+      console.error('An error occured while initializing : ', e);
+  });
+  }
+
+  ngAfterViewInit() {
+    this.keyManager = new ListKeyManager(this.elementChild);
+    this.keyManager.withHorizontalOrientation('ltr'); // Arrow navigation options
+    this.keyManager.withWrap(); // Arrow navigation options
+  }
+
+    /* Enables keyboard arrows navigation */
+    @HostListener('window:keydown', ['$event'])
+    keyFunc(event) {
+    if (event.code !== 'Tab') {
+      this.keyManager.onKeydown(event);
+      this.focusMonitor.focusVia(this.keyManager.activeItem.nativeElement, 'keyboard');
+
+    } else {  // 'artificially' updates the active element in case the user uses Tab instead of arrows
+      this.keyManager.onKeydown(event);
+      this.keyManager.setNextItemActive();
+    }
+  }
+
+
+  getProductsFromService() {
+    const observable = this._httpService.getProducts();
     observable.subscribe(data => {
       console.log(data);
       this.tiles = data['data'];
@@ -37,20 +75,46 @@ export class ItemNavigatorComponent implements OnInit {
     this.sendProduct.emit(product);
   }
   sendTagsToParent(tags){
-    this.sendTags.emit(tags); 
+    this.sendTags.emit(tags);
   }
 
-  sendProductFilterToParent(tag){
+  sendProductFilterToParent(tag) {
     console.log(tag);
     this.productFilter.emit(tag);
   }
 
-  incrementIdx(){
+  incrementIdx() {
     this.tileIdx += 1;
   }
 
-  decrementIdx(){
+  decrementIdx() {
     this.tileIdx -= 1;
+  }
+
+  speakFeaturedProduct(text) {
+    const speech = new Speech(text);
+    speech.speak({
+      text,
+      queue: false,
+      listeners: {
+        onstart: () => {
+            console.log('Start utterance');
+        },
+        onend: () => {
+            console.log('End utterance');
+        },
+        onresume: () => {
+            console.log('Resume utterance');
+        },
+        onboundary: (event) => {
+            console.log(event.name + ' boundary reached after ' + event.elapsedTime + ' milliseconds.');
+        }
+    }
+  }).then(() => {
+      console.log('Success !');
+  }).catch(e => {
+      console.error('An error occurred :', e);
+  });
   }
 
 }
