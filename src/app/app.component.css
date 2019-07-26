@@ -11,7 +11,7 @@
     border-radius: 15px; */
     width: 740px;
     min-height: 340px;
-    margin: 0px auto;
+    margin: 0px auto 20px auto;
 
 }
 
@@ -37,7 +37,7 @@
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 15px;
-    margin: 0px 10px;
+    margin: 0px 10px 10px 10px;
     overflow: auto;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .gabegrid-featurewrapper img{
-    margin-top: -50%;
+    margin-top: -10%;
 }
 
 .gabegrid-product-tile button{
@@ -62,14 +62,25 @@
 }
 
 .gabegrid-product-thumbnail {
-    height: 330px;
+    width: 800px;
+    margin-left: -100px;
+    margin-top: -200px;
+    /* height: inherit; */
+    /* height: 330px; */
 }
 
 .gabegrid-product-display-left, .gabegrid-product-display-right{
     display: inline-block;
     vertical-align: middle;
     width: 340px;
+    height: 340px;
     margin: 0px 10px 0px 10px;
+    overflow: hidden;
+}
+
+.gabegrid-product-display-left{
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 15px;
 }
 
 .gabegrid-product-feature-image{
@@ -83,4 +94,10 @@
 .gabegrid-item-select-ui{
     display: block;
     margin: 0px auto 15px auto;
+}
+
+.gabegrid-settings-ui h4, .gabegrid-settings-ui mat-form-field{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 10px 0px 10px;
 }

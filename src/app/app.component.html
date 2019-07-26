@@ -3,12 +3,11 @@
   <!-- <h1>
     Welcome to {{ title }}!
   </h1> -->
-  <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedIndex">
+  <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedIndex">
     <mat-tab label="Browse">
       <button class="gabegrid-ui-button" mat-raised-button color="accent"
         (click)="featureMode(); getProductsFromService()">Featured Items</button>
-      <button class="gabegrid-ui-button" mat-raised-button color="accent" (click)="getProductsFromService()">All
-        Items</button>
+      <button class="gabegrid-ui-button" mat-stroked-button color="warn" (click)="getProductsFromService()">Clear Filters</button>
       <!-- <button mat-raised-button color="accent" (click)="cartMode()">Cart</button> -->
       <!-- <button [routerLink]="['/productTile']">Selection Details</button> -->
 
@@ -32,21 +31,23 @@
       <!-- </ng-template> -->
     </mat-tab>
     <mat-tab label="Settings">
-      <p>
-        {{selectedVoice}}
-      </p>
-      <mat-form-field>
-        <mat-select (selectionChange)="initSpeech(selectedVoice)" [(ngModel)]="selectedVoice">
-          <ng-template ngFor let-item [ngForOf]="speechVoices" let-i="index">
-            <mat-option value="{{item['name']}}">{{item['name']}}</mat-option>
-          </ng-template>
-        </mat-select>
-      </mat-form-field>
+      <div class="gabegrid-settings-ui">
+        <h4>
+          Text to Speech Voice:
+        </h4>
+        <mat-form-field>
+          <mat-select (selectionChange)="initSpeech(selectedVoice)" [(ngModel)]="selectedVoice">
+            <ng-template ngFor let-item [ngForOf]="speechVoices" let-i="index">
+              <mat-option value="{{item['name']}}">{{item['name']}}</mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </mat-tab>
   </mat-tab-group>
 
-  <app-item-navigator [tiles]="tileGroups" (sendProduct)="productMode($event); selectTab(0)" (productFilter)="filterProducts($event)"
-    (sendSpeech)="recieveSpeech($event)"></app-item-navigator>
+  <app-item-navigator [tiles]="tileGroups" (sendProduct)="productMode($event)" (sendTab)="selectTab(0)"
+    (productFilter)="filterProducts($event)" (sendSpeech)="recieveSpeech($event)"></app-item-navigator>
   <!-- get product list via INPUT from app component -->
 
   <!-- app-textToSpeech -->

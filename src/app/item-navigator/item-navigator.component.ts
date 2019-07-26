@@ -18,14 +18,23 @@ export class ItemNavigatorComponent implements OnInit, AfterViewInit {
   @Output() sendTags = new EventEmitter();
   @Output() productFilter = new EventEmitter();
   @Output() sendSpeech = new EventEmitter();
+  @Output() sendTab = new EventEmitter();
 
   @Input() tiles = [];
+
+  @ViewChild('element', { static: true }) element: ElementRef<any>;
+  @ViewChildren('elementChild') elementChild: QueryList<any>;
 
   tileIdx = 0;
   keyManager: any;
 
-  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute){ }
+  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute,
+    private focusTrap: FocusTrapFactory, private focusMonitor: FocusMonitor) { }
 
+  focus() {
+    this.element.nativeElement.focus();
+    console.log(this.element.nativeElement);
+  }
   ngOnInit() {
     const speech = new Speech(); // will throw an exception if not browser supported
     if (speech.hasBrowserSupport()) { // returns a boolean
@@ -40,6 +49,28 @@ export class ItemNavigatorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.keyManager = new ListKeyManager(this.elementChild);
+    this.keyManager.withHorizontalOrientation('ltr'); // Arrow navigation options
+    this.keyManager.withWrap(); // Arrow navigation options
+  }
+
+     /* Enables keyboard arrows navigation */
+    @HostListener('window:keyup', ['$event'])
+    keyFunc(event) {
+    // let focusTrap = this.focusTrap.create(this.element.nativeElement); // creates a focus trap region
+    // focusTrap.focusInitialElement();
+    // this.keyManager.setFirstItemActive();
+    if (event.code !== 'Tab') {
+      console.log('AAAAAAAAAAAAAAAAAAAA');
+      this.keyManager.onKeydown(event);
+      console.log('BBBBBBBBBBB');
+
+       this.focusMonitor.focusVia(this.keyManager.activeItem, 'keyboard');
+      console.log(this.keyManager.activeItem.nativeElement);
+    } else {  // 'artificially' updates the active element in case the user uses Tab instead of arrows
+      this.keyManager.onKeydown(event);
+      this.keyManager.setNextItemActive();
+    }
   }
 
   getProductsFromService() {
@@ -72,6 +103,10 @@ export class ItemNavigatorComponent implements OnInit, AfterViewInit {
 
   speakFeaturedProduct(text) {
     this.sendSpeech.emit(text);
+  }
+
+  tabToProduct() {
+    this.sendTab.emit();
   }
 
 }

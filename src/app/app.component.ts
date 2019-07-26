@@ -123,7 +123,7 @@ export class AppComponent implements OnInit {
   getProductsFromService() {
     this.tileGroups = [];
     this.featuredItems = [];
-    this.displayMode = this.displayModes['featured'];
+    // this.displayMode = this.displayModes['featured'];
     let observable = this._httpService.getProducts();
     observable.subscribe(data => {
       console.log(data);
