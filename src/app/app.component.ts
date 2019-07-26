@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   featuredItems = [];
 
   speechVoices = [];
-  selectedVoice = "";
+  selectedVoice = "Google UK English Male";
 
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { }
 
