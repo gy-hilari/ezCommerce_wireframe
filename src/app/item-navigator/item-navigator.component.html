@@ -15,10 +15,13 @@
 
     <ng-template #item let-i="index">
         <!-- <div class="gabegrid-tilewrapper"> -->
-        <div #element role="dialog" class="gabegrid-tilewrapper">
+        <div class="gabegrid-tilewrapper">
             <ng-template ngFor let-item [ngForOf]="tiles[i]" let-j="index">
-                <button #elementChild mat-stroked-button color="primary" class="gabegrid-product-tile" (focus)="sendItemToParent(item); speakFeaturedProduct(item.title)" (click)="sendItemToParent(item)"
+                <button mat-stroked-button color="primary" class="gabegrid-product-tile" (focus)="sendItemToParent(item); speakFeaturedProduct(item.title)" (click)="sendItemToParent(item)"
                     (keydown.space)="sendProductFilterToParent(item['category'])">{{item['title']}}</button>
+                <!-- <div class="gabegrid-product-tile">
+                    <img class="gabegrid-product-thumbnail" src="{{item['imageUrl']}}" alt="{{item['title']}}">
+                </div> -->
             </ng-template>
         </div>
 

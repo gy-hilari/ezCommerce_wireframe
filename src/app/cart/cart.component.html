@@ -1,4 +1,4 @@
-<div *ngIf="cartKeys.length > 0" class="gabegrid-bubble-display">
+<div *ngIf="cartKeys.length > 0" class="gabegrid-tilewrapper">
     <button mat-raised-button color="accent" (click)="speakCart()">Read Cart</button>
     <h3>
         Items in cart:
@@ -6,8 +6,8 @@
     <p *ngFor="let key of cartKeys">
         {{key}}: {{cart[key]['quantity']}}
     </p>
-    <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
-    <button mat-raised-button color="accent" (click)="clearCartItems()">Clear Cart</button>
+    <button class="gabegrid-ui-button" mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+    <button class="gabegrid-ui-button" mat-raised-button color="accent" (click)="clearCartItems()">Clear Cart</button>
 </div>
 <div *ngIf="cartKeys.length == 0" class="gabegrid-bubble-display">
     <p>

@@ -16,6 +16,7 @@ var ProductSchema = new mongoose.Schema({
     title: { type: String, required: true, maxlength: 45, minlength: 3 },
     category: { type: String, required: true, maxlength: 45, minlength: 3 },
     description: { type: String, required: true, maxlength: 280, minlength: 3 },
+    imageUrl: { type: String, required: false },
     price: { type: Number, required: true },
     popularity: { type: Number, required: true, default: 0 },
     createdAt: { type: Date, default: Date.now },
@@ -62,6 +63,8 @@ app.post('/api/product', function (request, response) {
     console.log(newCategory);
     let newDesc = request.body['description'];
     console.log(newDesc);
+    let newImg = request.body['imageUrl'];
+    console.log(newImg);
     let newPrice = request.body['price'];
     console.log(newPrice);
     let newPopularity = request.body['popularity'];
@@ -71,6 +74,7 @@ app.post('/api/product', function (request, response) {
         title: newTitle,
         category: newCategory,
         description: newDesc,
+        imageUrl: newImg,
         price: newPrice,
         popularity: newPopularity
     });
@@ -91,18 +95,18 @@ app.put('/api/popularity', function (request, response) {
     let targetId = request.body['id'];
     let increment = request.body['increment'];
 
-    Product.findOne({ _id: targetId }, function(err, product){
-        if(err){
+    Product.findOne({ _id: targetId }, function (err, product) {
+        if (err) {
             response.json(err);
         }
-        else{
+        else {
             product['popularity'] += increment;
 
-            product.save(function (err){
-                if(err){
+            product.save(function (err) {
+                if (err) {
                     response.json(err);
                 }
-                else{
+                else {
                     response.json(product);
                 }
             });
@@ -121,6 +125,17 @@ app.delete('/api/delete/:id', function (request, response) {
             response.json({ message: `Deleted Product w/ ID#: ${targetId}` });
         }
     })
+});
+
+app.delete('/api/deleteAll', function (request, response) {
+    Product.deleteMany({}, function (err) {
+        if (err) {
+            response.json(err);
+        }
+        else {
+            response.json({ message: "Cleared Product Database" });
+        }
+    });
 });
 
 

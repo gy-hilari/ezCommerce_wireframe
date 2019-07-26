@@ -1,17 +1,30 @@
-<div class="gabegrid-bubble-display">
+<mat-card class="gabegrid-bubble-display">
     <!-- <p>selected-item works!</p> -->
-    <p>
-        Selected item w/ ID#: {{targetProduct['_id']}}
-    </p>
-    <h3>
-        {{targetProduct['title']}} | ${{targetProduct['price']}}
-    </h3>
-    <p>
-        {{targetProduct['description']}}
-    </p>
-    <button mat-raised-button color="accent" (click)="addProductToCart()">Add to Cart</button>
-    <hr>
-    <button mat-stroked-button color="warn" (click)="sendProductFilterToParent(targetProduct['category'])">
-        Category: {{targetProduct['category']}}
-    </button>
-</div>
+    <mat-card-content>
+        <div class="gabegrid-product-display-left">
+            <img class="gabegrid-product-thumbnail" src="{{targetProduct['imageUrl']}}"
+                alt="{{targetProduct['title']}}">
+        </div>
+        <div class="gabegrid-product-display-right">
+            <!-- <p>
+                Selected item w/ ID#: {{targetProduct['_id']}}
+            </p> -->
+            <h2>
+                {{targetProduct['title']}}
+            </h2>
+            <h4>
+                ${{targetProduct['price']}}
+            </h4>
+            <p>
+                {{targetProduct['description']}}
+            </p>
+            <button class="gabegrid-item-select-ui" mat-raised-button color="accent" (click)="addProductToCart()">Add to
+                Cart</button>
+            <button class="gabegrid-item-select-ui" mat-stroked-button color="warn"
+                (click)="sendProductFilterToParent(targetProduct['category'])">
+                Category: {{targetProduct['category']}}
+            </button>
+        </div>
+        <!-- <hr> -->
+    </mat-card-content>
+</mat-card>

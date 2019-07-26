@@ -12,19 +12,19 @@ import Speech from 'speak-tts';
 export class CartComponent implements OnInit {
 
   @Input() cart;
+  @Input() cartKeys;
   @Output() clearCart = new EventEmitter();
 
   @Output() sendSpeech = new EventEmitter();
 
   speech = new Speech();
 
-  cartKeys = [];
 
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { } 
 
   ngOnInit() {
 
-    this.cartKeys = Object.keys(this.cart);
+    // this.cartKeys = Object.keys(this.cart);
 
     this.speech.init({
       'volume': 1,

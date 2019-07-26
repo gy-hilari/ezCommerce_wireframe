@@ -5,7 +5,7 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventEmitter } from '@angular/core';
 import { HttpService } from '../http.service';
-import { FocusTrapFactory, FocusMonitor, ListKeyManager, FocusableOption, FocusOrigin} from '@angular/cdk/a11y';
+import { FocusTrapFactory, FocusMonitor, ListKeyManager, FocusableOption, FocusOrigin } from '@angular/cdk/a11y';
 import Speech from 'speak-tts';
 
 @Component({
@@ -21,19 +21,12 @@ export class ItemNavigatorComponent implements OnInit, AfterViewInit {
 
   @Input() tiles = [];
 
-  @ViewChild('element', { static: true }) element: ElementRef<any>;
-  @ViewChildren('elementChild') elementChild: QueryList<any>;
   tileIdx = 0;
   keyManager: any;
-  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute,
-    private focusTrap: FocusTrapFactory, private focusMonitor: FocusMonitor) { }
 
-  // focus() {
-  //   this.element.nativeElement.focus();
-  // }
+  constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute){ }
 
   ngOnInit() {
-
     const speech = new Speech(); // will throw an exception if not browser supported
     if (speech.hasBrowserSupport()) { // returns a boolean
       console.log('speech synthesis supported');
@@ -47,27 +40,7 @@ export class ItemNavigatorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.keyManager = new ListKeyManager(this.elementChild);
-    this.keyManager.withHorizontalOrientation('ltr'); // Arrow navigation options
-    this.keyManager.withWrap(); // Arrow navigation options
   }
-
-  /* Enables keyboard arrows navigation */
-  @HostListener('window:keydown', ['$event'])
-  keyFunc(event) {
-    if (event.code !== 'Tab') {
-      this.keyManager.onKeydown(event);
-      this.focusMonitor.focusVia(this.keyManager.activeItem.nativeElement, 'keyboard');
-      const focusTrap = this.focusTrap.create(this.element.nativeElement);
-      focusTrap.focusInitialElement();
-      this.keyManager.setFirstItemActive();
-
-    } else {  // 'artificially' updates the active element in case the user uses Tab instead of arrows
-      this.keyManager.onKeydown(event);
-      this.keyManager.setNextItemActive();
-    }
-  }
-
 
   getProductsFromService() {
     const observable = this._httpService.getProducts();

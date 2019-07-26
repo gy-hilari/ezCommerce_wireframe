@@ -3,39 +3,52 @@
   <!-- <h1>
     Welcome to {{ title }}!
   </h1> -->
-  <select (change)="initSpeech(selectedVoice)" [(ngModel)]="selectedVoice">
-    <ng-template ngFor let-item [ngForOf]="speechVoices" let-i="index">
-      <option value="{{item['name']}}">{{item['name']}}</option>
-    </ng-template>
-  </select>
-  <button mat-raised-button color="accent" (click)="featureMode(); getProductsFromService()">Featured Items</button>
-  <button mat-raised-button color="accent" (click)="getProductsFromService()">All Items</button>
-  <button mat-raised-button color="accent" (click)="cartMode()">Cart</button>
-  <!-- <button [routerLink]="['/productTile']">Selection Details</button> -->
+  <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedIndex">
+    <mat-tab label="Browse">
+      <button class="gabegrid-ui-button" mat-raised-button color="accent"
+        (click)="featureMode(); getProductsFromService()">Featured Items</button>
+      <button class="gabegrid-ui-button" mat-raised-button color="accent" (click)="getProductsFromService()">All
+        Items</button>
+      <!-- <button mat-raised-button color="accent" (click)="cartMode()">Cart</button> -->
+      <!-- <button [routerLink]="['/productTile']">Selection Details</button> -->
 
-  <!-- <hr> -->
-  
-  <ng-template [ngIf]=" displayMode == 'featured' && featuredItems.length > 0">
-    <app-featured-items [featuredItems]="featuredItems"></app-featured-items>
-  </ng-template>
+      <!-- <hr> -->
 
-  <ng-template [ngIf]=" displayMode == 'selected' ">
-    <app-selected-item [targetProduct]="targetProduct" (productToCart)="addToCart($event)" (productFilter)="filterProducts($event)"></app-selected-item>
-    <!-- <app-item-tags [productCategory]="targetProduct['category']" (productFilter)="filterProducts($event)"></app-item-tags> -->
-    <!-- get tags from navigator OUTPUT -->
-  </ng-template>
+      <ng-template [ngIf]=" displayMode == 'featured' && featuredItems.length > 0">
+        <app-featured-items [featuredItems]="featuredItems" (sendProduct)="productMode($event)"></app-featured-items>
+      </ng-template>
 
-  <ng-template [ngIf]=" displayMode == 'cart' ">
-    <app-cart [cart]="cart" (clearCart)="clearCart()" (sendSpeech)="recieveCartSpeech($event)"></app-cart>
-  </ng-template>
-  
-  <app-item-navigator [tiles]="tileGroups" 
-  (sendProduct)="productMode($event)" 
-  (productFilter)="filterProducts($event)"
-  (sendSpeech)="recieveSpeech($event)"
-  ></app-item-navigator>
+      <ng-template [ngIf]=" displayMode == 'selected' ">
+        <app-selected-item [targetProduct]="targetProduct" (productToCart)="addToCart($event)"
+          (productFilter)="filterProducts($event)"></app-selected-item>
+        <!-- <app-item-tags [productCategory]="targetProduct['category']" (productFilter)="filterProducts($event)"></app-item-tags> -->
+        <!-- get tags from navigator OUTPUT -->
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Cart">
+      <!-- <ng-template [ngIf]=" displayMode == 'cart' "> -->
+      <app-cart [cart]="cart" [cartKeys]="cartKeys" (clearCart)="clearCart()" (sendSpeech)="recieveCartSpeech($event)">
+      </app-cart>
+      <!-- </ng-template> -->
+    </mat-tab>
+    <mat-tab label="Settings">
+      <p>
+        {{selectedVoice}}
+      </p>
+      <mat-form-field>
+        <mat-select (selectionChange)="initSpeech(selectedVoice)" [(ngModel)]="selectedVoice">
+          <ng-template ngFor let-item [ngForOf]="speechVoices" let-i="index">
+            <mat-option value="{{item['name']}}">{{item['name']}}</mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+    </mat-tab>
+  </mat-tab-group>
+
+  <app-item-navigator [tiles]="tileGroups" (sendProduct)="productMode($event); selectTab(0)" (productFilter)="filterProducts($event)"
+    (sendSpeech)="recieveSpeech($event)"></app-item-navigator>
   <!-- get product list via INPUT from app component -->
-  
+
   <!-- app-textToSpeech -->
   <router-outlet></router-outlet>
 </div>

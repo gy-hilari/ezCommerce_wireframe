@@ -15,5 +15,8 @@
         <h2>
             Featured Item: {{featuredItems[i]['title']}}
         </h2>
+        <div class="gabegrid-featurewrapper">
+            <img (click)="sendItemToParent(featuredItems[i])" class="gabegrid-product-feature-image" src="{{featuredItems[i]['imageUrl']}}" alt="{{featuredItems[i]['title']}}">
+        </div>
     </div>
 </ng-template>

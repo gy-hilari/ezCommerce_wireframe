@@ -42,11 +42,14 @@ export class AppComponent implements OnInit {
   speech = new Speech();
 
   cart = {};
+  cartKeys = [];
 
   featuredItems = [];
 
   speechVoices = [];
   selectedVoice = "Google UK English Male";
+
+  selectedIndex = 0;
 
   constructor(private _httpService: HttpService, private _router: Router, private _route: ActivatedRoute) { }
 
@@ -76,6 +79,10 @@ export class AppComponent implements OnInit {
     }).catch(e => {
       console.error("An error occured while initializing : ", e)
     })
+  }
+
+  selectTab(index){
+    this.selectedIndex = index;
   }
 
   featureMode() {
@@ -177,9 +184,11 @@ export class AppComponent implements OnInit {
   addToCart(event){
     if(this.cart[event['title']]){
       this.cart[event['title']]['quantity'] += 1;
+      this.cartKeys = Object.keys(this.cart);
     }
     else{
       this.cart[event['title']] = {quantity: 1, id: event['_id']};
+      this.cartKeys = Object.keys(this.cart);
       // this.cart[event['title']['quantity']] = 1;
       // this.cart[event['title']['id']] = event['_id'];
     }

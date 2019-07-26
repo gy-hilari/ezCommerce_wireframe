@@ -16,6 +16,9 @@ import { A11yModule } from '@angular/cdk/a11y';
 // import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material'
+import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
 
 import { FeaturedItemsComponent } from './featured-items/featured-items.component';
 import { SelectedItemComponent } from './selected-item/selected-item.component';
@@ -41,7 +44,10 @@ import { CartComponent } from './cart/cart.component';
     Ng2CarouselamosModule,
     A11yModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatCardModule
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]
