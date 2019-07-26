@@ -8,9 +8,9 @@
       <option value="{{item['name']}}">{{item['name']}}</option>
     </ng-template>
   </select>
-  <button (click)="featureMode(); getProductsFromService()">Featured Items</button>
-  <button (click)="getProductsFromService()">All Items</button>
-  <button (click)="cartMode()">Cart</button>
+  <button mat-raised-button color="accent" (click)="featureMode(); getProductsFromService()">Featured Items</button>
+  <button mat-raised-button color="accent" (click)="getProductsFromService()">All Items</button>
+  <button mat-raised-button color="accent" (click)="cartMode()">Cart</button>
   <!-- <button [routerLink]="['/productTile']">Selection Details</button> -->
 
   <!-- <hr> -->
@@ -26,12 +26,13 @@
   </ng-template>
 
   <ng-template [ngIf]=" displayMode == 'cart' ">
-    <app-cart [cart]="cart" (clearCart)="clearCart()" (sendSpeech)="recieveSpeech($event)"></app-cart>
+    <app-cart [cart]="cart" (clearCart)="clearCart()" (sendSpeech)="recieveCartSpeech($event)"></app-cart>
   </ng-template>
   
   <app-item-navigator [tiles]="tileGroups" 
   (sendProduct)="productMode($event)" 
   (productFilter)="filterProducts($event)"
+  (sendSpeech)="recieveSpeech($event)"
   ></app-item-navigator>
   <!-- get product list via INPUT from app component -->
   

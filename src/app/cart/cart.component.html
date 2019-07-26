@@ -1,13 +1,13 @@
 <div *ngIf="cartKeys.length > 0" class="gabegrid-bubble-display">
-    <button (click)="speakCart()">Read Cart</button>
+    <button mat-raised-button color="accent" (click)="speakCart()">Read Cart</button>
     <h3>
         Items in cart:
     </h3>
     <p *ngFor="let key of cartKeys">
         {{key}}: {{cart[key]['quantity']}}
     </p>
-    <button (click)="checkout()">Checkout</button>
-    <button (click)="clearCartItems()">Clear Cart</button>
+    <button mat-raised-button color="accent" (click)="checkout()">Checkout</button>
+    <button mat-raised-button color="accent" (click)="clearCartItems()">Clear Cart</button>
 </div>
 <div *ngIf="cartKeys.length == 0" class="gabegrid-bubble-display">
     <p>

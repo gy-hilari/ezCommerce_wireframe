@@ -6,18 +6,18 @@
     </div>
 
     <ng-template #prev>
-        <button (click)="decrementIdx()">Left</button>
+        <button mat-raised-button color="accent">Left</button>
     </ng-template>
 
     <ng-template #next>
-        <button (click)="incrementIdx()">Right</button>
+        <button mat-raised-button color="accent">Right</button>
     </ng-template>
 
     <ng-template #item let-i="index">
         <!-- <div class="gabegrid-tilewrapper"> -->
-        <div class="gabegrid-tilewrapper">
+        <div #element role="dialog" class="gabegrid-tilewrapper">
             <ng-template ngFor let-item [ngForOf]="tiles[i]" let-j="index">
-                <button class="gabegrid-product-tile" (focus)="sendItemToParent(item)" (click)="sendItemToParent(item)"
+                <button #elementChild mat-stroked-button color="primary" class="gabegrid-product-tile" (focus)="sendItemToParent(item); speakFeaturedProduct(item.title)" (click)="sendItemToParent(item)"
                     (keydown.space)="sendProductFilterToParent(item['category'])">{{item['title']}}</button>
             </ng-template>
         </div>
@@ -27,4 +27,3 @@
     </ng-template>
 
 </div>
-<!-- <hr> -->

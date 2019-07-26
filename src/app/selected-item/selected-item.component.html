@@ -9,9 +9,9 @@
     <p>
         {{targetProduct['description']}}
     </p>
-    <button (click)="addProductToCart()">Add to Cart</button>
+    <button mat-raised-button color="accent" (click)="addProductToCart()">Add to Cart</button>
     <hr>
-    <p (click)="sendProductFilterToParent(targetProduct['category'])">
+    <button mat-stroked-button color="warn" (click)="sendProductFilterToParent(targetProduct['category'])">
         Category: {{targetProduct['category']}}
-    </p>
+    </button>
 </div>

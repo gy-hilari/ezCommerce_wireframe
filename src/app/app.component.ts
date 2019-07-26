@@ -205,11 +205,36 @@ export class AppComponent implements OnInit {
   recieveSpeech(event){
     this.speech.speak({
       text: `${event}`,
+      queue: false,
+      listeners: {
+        onstart: () => {
+          console.log('Start utterance');
+        },
+        onend: () => {
+          console.log('End utterance');
+        },
+        onresume: () => {
+          console.log('Resume utterance');
+        },
+        onboundary: (event) => {
+          console.log(event.name + ' boundary reached after ' + event.elapsedTime + ' milliseconds.');
+        }
+      }
     }).then(() => {
       console.log("Success !")
     }).catch(e => {
       console.error("An error occurred :", e)
-    })
+    });
+  }
+
+  recieveCartSpeech(event){
+    this.speech.speak({
+      text: `${event}`
+    }).then(() => {
+      console.log("Success !")
+    }).catch(e => {
+      console.error("An error occurred :", e)
+    });
   }
 
 
